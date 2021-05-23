@@ -175,3 +175,22 @@ function iNat_get_taxa($taxa, $inat_user = '', $rank = null, $baseurl = 'https:/
         return null;
     }
 }
+
+/**
+ * GET/observations:
+ **/
+function iNat_project_observations($project_id, $page='1',$per_page='50',$inat_user = '', $baseurl = 'https://api.inaturalist.org/v1/observations')
+{
+    $url = $baseurl . '?project_id=' . $project_id . '&page='.$page.'&per_page='.$per_page.'';
+    $curl = curl_init();
+    if ($curl) {
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_USERAGENT, $inat_user);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $out = curl_exec($curl);
+        $object = json_decode($out);
+        return json_decode(json_encode($object), true);
+    } else {
+        return null;
+    }
+}
