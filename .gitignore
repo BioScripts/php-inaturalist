@@ -1,5 +1,8 @@
 .nova
 test.php
+test2.php
+index.php
 vendor
 composer.lock
 composer.json
+template
