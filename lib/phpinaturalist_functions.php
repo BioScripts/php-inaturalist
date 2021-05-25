@@ -149,6 +149,32 @@ function iNat_post_observation_photo($file_path, $observation_id, $access_token,
         return null;
     }
 }
+/*
+	array(
+		
+	)
+*/
+function iNat_post_observation_to_project($project_id, $observation_id, $access_token, $baseurl = 'https://api.inaturalist.org/v1/project_observations')
+{
+    $header = array("Content-Type:application/json", "Authorization: Bearer $access_token");
+    $payload = '{
+	  "project_id": '.$project_id.',
+	  "observation_id": '.$observation_id.'
+	}';//json_encode(array("project_id"=> $project_id,"observation_id"=> $observation_id));
+    $curl = curl_init();
+    if ($curl) {
+        curl_setopt($curl, CURLOPT_URL, $baseurl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        $out = curl_exec($curl);
+        $object = json_decode($out);
+        return json_decode(json_encode($object), true);
+    } else {
+        return null;
+    }
+}
 
 /**
  * GET/taxa:
