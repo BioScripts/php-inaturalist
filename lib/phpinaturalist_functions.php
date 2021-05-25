@@ -220,3 +220,19 @@ function iNat_project_observations($project_id, $page='1',$per_page='50',$inat_u
         return null;
     }
 }
+
+function iNat_get_userme($inat_user = '', $baseurl = 'https://api.inaturalist.org/v1/users/autocomplete')
+{
+    $url = $baseurl.'?q=' . $inat_user; 
+    $curl = curl_init();
+    if ($curl) {
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_USERAGENT, $inat_user);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $out = curl_exec($curl);
+        $object = json_decode($out);
+        return json_decode(json_encode($object), true);
+    } else {
+        return null;
+    }
+}
